@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ReceiptInformationSystem.Infrastructure.Data;
@@ -11,9 +12,11 @@ using ReceiptInformationSystem.Infrastructure.Data;
 namespace ReceiptInformationSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506133625_AddNewColumnAtTableRecipeStepParameters")]
+    partial class AddNewColumnAtTableRecipeStepParameters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,36 +78,6 @@ namespace ReceiptInformationSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ParameterTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("35fee709-1568-495c-9163-7ee9ddf7784a"),
-                            Description = "Penjelasan tentang langkah",
-                            Name = "Deskripsi",
-                            TypeData = "text"
-                        },
-                        new
-                        {
-                            Id = new Guid("b4e54ea5-9e64-42db-8fcc-ff3dd25e085e"),
-                            Description = "Lama waktu pelaksanaan langkah",
-                            Name = "Durasi",
-                            TypeData = "integer"
-                        },
-                        new
-                        {
-                            Id = new Guid("be0c8dd8-93db-494a-8a27-8fc69e4bf01e"),
-                            Description = "Suhu yang dibutuhkan",
-                            Name = "Suhu",
-                            TypeData = "float"
-                        },
-                        new
-                        {
-                            Id = new Guid("c40582ab-bfcd-4a7e-bf54-33ef61aec5ed"),
-                            Description = "Tekanan pada alat yang digunakan",
-                            Name = "tekanan",
-                            TypeData = "float"
-                        });
                 });
 
             modelBuilder.Entity("ReceiptInformationSystem.Domain.Entities.Recipe", b =>

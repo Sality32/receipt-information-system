@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ReceiptInformationSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class NewColumnTypeDataAtParameterTables : Migration
+    public partial class AddNewColumnAtTableRecipeStepParameters : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,21 +37,11 @@ namespace ReceiptInformationSystem.Migrations
                 type: "text",
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.InsertData(
-                table: "ParameterTypes",
-                columns: new[] { "Id", "Description", "Name", "TypeData" },
-                values: new object[] { new Guid("7b0ff93a-c215-4b84-ad79-818c69f7b175"), "Keterangan", "Description", "text" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "ParameterTypes",
-                keyColumn: "Id",
-                keyValue: new Guid("7b0ff93a-c215-4b84-ad79-818c69f7b175"));
-
             migrationBuilder.DropColumn(
                 name: "Title",
                 table: "StepRecipes");

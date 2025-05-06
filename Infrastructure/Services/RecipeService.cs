@@ -15,19 +15,41 @@ public class RecipeService : IRecipeService
         _context = context;
     }
 
-    public async Task<IEnumerable<Recipe>> GetRecipes() => 
-        await _context.Recipes
+    public async Task<IEnumerable<RecipeResponseDTO>> GetRecipes()
+    {
+        var recipes = await _context.Recipes
             .Include(r => r.Steps)
                 .ThenInclude(s => s.Parameters)
             .ToListAsync();
 
-    public async Task<Recipe?> GetRecipeById(Guid id) =>
-        await _context.Recipes
+        return recipes.Select(MapToResponseDTO);
+    }
+
+    public async Task<IEnumerable<RecipeListDTO>> GetRecipesList()
+    {
+        var recipes = await _context.Recipes
+            .Select(r => new RecipeListDTO
+            {
+                Id = r.Id,
+                Title = r.Title,
+                Description = r.Description
+            })
+            .ToListAsync();
+
+        return recipes;
+    }
+
+    public async Task<RecipeResponseDTO?> GetRecipeById(Guid id)
+    {
+        var recipe = await _context.Recipes
             .Include(r => r.Steps)
                 .ThenInclude(s => s.Parameters)
             .FirstOrDefaultAsync(r => r.Id == id);
 
-    public async Task<Recipe> CreateRecipe(RecipeDTO recipeDto)
+        return recipe == null ? null : MapToResponseDTO(recipe);
+    }
+
+    public async Task<RecipeResponseDTO> CreateRecipe(RecipeDTO recipeDto)
     {
         var recipe = new Recipe
         {
@@ -49,7 +71,7 @@ public class RecipeService : IRecipeService
 
         _context.Recipes.Add(recipe);
         await _context.SaveChangesAsync();
-        return recipe;
+        return MapToResponseDTO(recipe);
     }
 
     public async Task<bool> UpdateRecipe(Guid id, RecipeDTO recipeDto)
@@ -86,5 +108,29 @@ public class RecipeService : IRecipeService
 
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    private static RecipeResponseDTO MapToResponseDTO(Recipe recipe)
+    {
+        return new RecipeResponseDTO
+        {
+            Id = recipe.Id,
+            Title = recipe.Title,
+            Description = recipe.Description,
+            Steps = recipe.Steps.Select(s => new StepRecipeResponseDTO
+            {
+                Id = s.Id,
+                Title = s.Title,
+                Description = s.Description,
+                Parameters = s.Parameters.Select(p => new ParameterStepResponseDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Type = p.Type,
+                    TypeData = p.TypeData,
+                    Value = p.Value
+                }).ToList()
+            }).ToList()
+        };
     }
 }

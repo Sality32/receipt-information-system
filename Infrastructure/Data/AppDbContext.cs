@@ -33,14 +33,36 @@ public class AppDbContext : DbContext
             .HasForeignKey(s => s.RecipeId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        
         // Seed ParameterType data
         modelBuilder.Entity<ParameterType>().HasData(
             new ParameterType
             {
-                Id = Guid.NewGuid(),
-                Name = "Description",
+                Id = Guid.Parse("35fee709-1568-495c-9163-7ee9ddf7784a"),
+                Name = "Deskripsi",
                 TypeData = "text",
-                Description = "Keterangan"
+                Description = "Penjelasan tentang langkah"
+            },
+            new ParameterType
+            {
+                Id = Guid.Parse("b4e54ea5-9e64-42db-8fcc-ff3dd25e085e"),
+                Name = "Durasi",
+                TypeData = "integer",
+                Description = "Lama waktu pelaksanaan langkah"
+            },
+            new ParameterType
+            {
+                Id = Guid.Parse("be0c8dd8-93db-494a-8a27-8fc69e4bf01e"),
+                Name = "Suhu",
+                TypeData = "float",
+                Description = "Suhu yang dibutuhkan"
+            },
+            new ParameterType
+            {
+                Id = Guid.Parse("c40582ab-bfcd-4a7e-bf54-33ef61aec5ed"),
+                Name = "tekanan",
+                TypeData = "float",
+                Description = "Tekanan pada alat yang digunakan"
             }
         );
     }    
