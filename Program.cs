@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IReceiptService, ReceiptService>();
+builder.Services.AddScoped<IParameterTypeService, ParameterTypeService>();
 
 var app = builder.Build();
 
