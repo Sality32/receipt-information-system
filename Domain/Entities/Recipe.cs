@@ -1,11 +1,10 @@
 namespace ReceiptInformationSystem.Domain.Entities;
 
-public class Receipt 
+public class Recipe 
 {
     public Guid Id { get; set; }
     public string Description { get; set; } = string.Empty;
 
     // Navigation property
-    public ICollection<StepReceipt> Steps { get; set; } = new List<StepReceipt>();
+    public ICollection<StepRecipe> Steps { get; set; } = new List<StepRecipe>();
 }
-

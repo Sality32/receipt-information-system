@@ -6,33 +6,33 @@ using ReceiptInformationSystem.Infrastructure.Data;
 
 namespace ReceiptInformationSystem.Infrastructure.Services;
 
-public class ReceiptService : IReceiptService 
+public class RecipeService : IRecipeService 
 {
     private readonly AppDbContext _context;
 
-    public ReceiptService(AppDbContext context) 
+    public RecipeService(AppDbContext context) 
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<Receipt>> GetReceipts() => 
-        await _context.Receipts
+    public async Task<IEnumerable<Recipe>> GetRecipes() => 
+        await _context.Recipes
             .Include(r => r.Steps)
                 .ThenInclude(s => s.Parameters)
             .ToListAsync();
 
-    public async Task<Receipt?> GetReceiptById(Guid id) =>
-        await _context.Receipts
+    public async Task<Recipe?> GetRecipeById(Guid id) =>
+        await _context.Recipes
             .Include(r => r.Steps)
                 .ThenInclude(s => s.Parameters)
             .FirstOrDefaultAsync(r => r.Id == id);
 
-    public async Task<Receipt> CreateReceipt(ReceiptDTO receiptDto)
+    public async Task<Recipe> CreateRecipe(RecipeDTO recipeDto)
     {
-        var receipt = new Receipt
+        var recipe = new Recipe
         {
-            Description = receiptDto.Description,
-            Steps = receiptDto.Steps.Select(s => new StepReceipt
+            Description = recipeDto.Description,
+            Steps = recipeDto.Steps.Select(s => new StepRecipe
             {
                 Description = s.Description,
                 Parameters = s.Parameters.Select(p => new ParameterStep
@@ -43,30 +43,30 @@ public class ReceiptService : IReceiptService
             }).ToList()
         };
 
-        _context.Receipts.Add(receipt);
+        _context.Recipes.Add(recipe);
         await _context.SaveChangesAsync();
-        return receipt;
+        return recipe;
     }
 
-    public async Task<bool> UpdateReceipt(Guid id, ReceiptDTO receiptDto)
+    public async Task<bool> UpdateRecipe(Guid id, RecipeDTO recipeDto)
     {
-        var receipt = await _context.Receipts
+        var recipe = await _context.Recipes
             .Include(r => r.Steps)
                 .ThenInclude(s => s.Parameters)
             .FirstOrDefaultAsync(r => r.Id == id);
 
-        if (receipt == null)
+        if (recipe == null)
             return false;
 
-        receipt.Description = receiptDto.Description;
+        recipe.Description = recipeDto.Description;
         
         // Remove existing steps and parameters
         _context.ParameterSteps.RemoveRange(
-            receipt.Steps.SelectMany(s => s.Parameters));
-        _context.StepReceipts.RemoveRange(receipt.Steps);
+            recipe.Steps.SelectMany(s => s.Parameters));
+        _context.StepRecipes.RemoveRange(recipe.Steps);
 
         // Add new steps and parameters
-        receipt.Steps = receiptDto.Steps.Select(s => new StepReceipt
+        recipe.Steps = recipeDto.Steps.Select(s => new StepRecipe
         {
             Description = s.Description,
             Parameters = s.Parameters.Select(p => new ParameterStep

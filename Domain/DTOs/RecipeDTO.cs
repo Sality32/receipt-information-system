@@ -1,7 +1,7 @@
 namespace ReceiptInformationSystem.Domain.DTOs;
 
-public class ReceiptDTO
+public class RecipeDTO
 {
     public string Description { get; set; } = string.Empty;
-    public List<StepReceiptDTO> Steps { get; set; } = new();
+    public List<StepRecipeDTO> Steps { get; set; } = new();
 }

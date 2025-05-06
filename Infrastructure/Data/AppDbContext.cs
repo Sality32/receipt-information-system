@@ -7,30 +7,30 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Receipt> Receipts => Set<Receipt>();
-    public DbSet<StepReceipt> StepReceipts => Set<StepReceipt>();
     public DbSet<ParameterStep> ParameterSteps => Set<ParameterStep>();
     public DbSet<ParameterType> ParameterTypes => Set<ParameterType>();
+    public DbSet<Recipe> Recipes => Set<Recipe>();
+    public DbSet<StepRecipe> StepRecipes => Set<StepRecipe>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Existing relationship
-        modelBuilder.Entity<StepReceipt>()
-            .HasOne(s => s.Receipt)
-            .WithMany(r => r.Steps)
-            .HasForeignKey(s => s.ReceiptId)
-            .OnDelete(DeleteBehavior.Cascade);
 
         // New relationship
         modelBuilder.Entity<ParameterStep>()
-            .HasOne(p => p.StepReceipt)
+            .HasOne(p => p.StepRecipe)
             .WithMany(s => s.Parameters)
-            .HasForeignKey(p => p.StepReceiptId)
+            .HasForeignKey(p => p.StepRecipeId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Configure enum as string
         modelBuilder.Entity<ParameterStep>()
             .Property(p => p.Type)
             .HasConversion<string>();
-    }
-}
+
+        modelBuilder.Entity<StepRecipe>()
+            .HasOne(s => s.Recipe)
+            .WithMany(r => r.Steps)
+            .HasForeignKey(s => s.RecipeId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }    
+}    

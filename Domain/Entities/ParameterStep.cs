@@ -8,8 +8,8 @@ public class ParameterStep
     public string Value { get; set; } = string.Empty;
     
     // Foreign key
-    public Guid StepReceiptId { get; set; }
+    public Guid StepRecipeId { get; set; }
     
     // Navigation property
-    public StepReceipt StepReceipt { get; set; } = null!;
+    public StepRecipe StepRecipe { get; set; } = null!;
 }
