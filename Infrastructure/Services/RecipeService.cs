@@ -31,13 +31,17 @@ public class RecipeService : IRecipeService
     {
         var recipe = new Recipe
         {
+            Title = recipeDto.Title,
             Description = recipeDto.Description,
             Steps = recipeDto.Steps.Select(s => new StepRecipe
             {
+                Title = s.Title,
                 Description = s.Description,
                 Parameters = s.Parameters.Select(p => new ParameterStep
                 {
                     Name = p.Name,
+                    Type = p.Type,
+                    TypeData = p.TypeData,
                     Value = p.Value,
                 }).ToList()
             }).ToList()
@@ -58,6 +62,7 @@ public class RecipeService : IRecipeService
         if (recipe == null)
             return false;
 
+        recipe.Title = recipeDto.Title;
         recipe.Description = recipeDto.Description;
         
         // Remove existing steps and parameters
@@ -68,10 +73,13 @@ public class RecipeService : IRecipeService
         // Add new steps and parameters
         recipe.Steps = recipeDto.Steps.Select(s => new StepRecipe
         {
+            Title = s.Title,
             Description = s.Description,
             Parameters = s.Parameters.Select(p => new ParameterStep
             {
                 Name = p.Name,
+                Type = p.Type,
+                TypeData = p.TypeData,
                 Value = p.Value,
             }).ToList()
         }).ToList();

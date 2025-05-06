@@ -22,8 +22,11 @@ public class RecipeController : ControllerBase
     public async Task<IActionResult> GetById(Guid id) => Ok(await _recipeService.GetRecipeById(id));
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] RecipeDTO recipeDto) => 
-        CreatedAtAction(nameof(GetById), new { id = _recipeService.CreateRecipe(recipeDto).Id }, recipeDto);
+    public async Task<IActionResult> Create([FromBody] RecipeDTO recipeDto) {
+        var result = await _recipeService.CreateRecipe(recipeDto);
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+    }
+       
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] RecipeDTO recipeDto)

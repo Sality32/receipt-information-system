@@ -32,5 +32,16 @@ public class AppDbContext : DbContext
             .WithMany(r => r.Steps)
             .HasForeignKey(s => s.RecipeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Seed ParameterType data
+        modelBuilder.Entity<ParameterType>().HasData(
+            new ParameterType
+            {
+                Id = Guid.NewGuid(),
+                Name = "Description",
+                TypeData = "text",
+                Description = "Keterangan"
+            }
+        );
     }    
-}    
+}

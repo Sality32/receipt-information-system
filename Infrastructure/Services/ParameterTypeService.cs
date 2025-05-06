@@ -26,6 +26,7 @@ public class ParameterTypeService : IParameterTypeService
         var parameterType = new ParameterType
         {
             Name = parameterTypeDto.Name,
+            TypeData = parameterTypeDto.TypeData,
             Description = parameterTypeDto.Description
         };
 
@@ -42,6 +43,7 @@ public class ParameterTypeService : IParameterTypeService
             return false;
 
         parameterType.Name = parameterTypeDto.Name;
+        parameterType.TypeData = parameterTypeDto.TypeData;
         parameterType.Description = parameterTypeDto.Description;
 
         await _context.SaveChangesAsync();
