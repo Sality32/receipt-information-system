@@ -5,6 +5,13 @@ This is for management receipt information that company had and for store every 
 .NET 8
 PostgreSQL
 
+## Schema Database
+* Recipe (Parent Table)
+* StepRecipe (Children 1 that had relation with Recipe and ParameterSteps)
+* ParameterSteps (Children 2 that contains more detail about parameter each Step)
+
+* ParameterType (Master data for ParameterSteps)
+
 # Steps to run Project
 ## Download and Install .NET 8 SDK From
 https://dotnet.microsoft.com/download/dotnet/8.0
