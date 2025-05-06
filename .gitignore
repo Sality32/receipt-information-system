@@ -59,3 +59,5 @@ nunit-*.xml
 # But keep launch and tasks
 !.vscode/launch.json
 !.vscode/tasks.json
+
+appsettings.json
