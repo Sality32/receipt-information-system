@@ -52,3 +52,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Ignore everything in .vscode
+.vscode/*
+
+# But keep launch and tasks
+!.vscode/launch.json
+!.vscode/tasks.json
